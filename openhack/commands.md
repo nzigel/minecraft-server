@@ -1,14 +1,25 @@
 kubectl get service minecraft-server --watch
+
 kubectl get pods
+
 az aks scale --resource-group=ohaus --name=ohAKSCluster --node-count 1
+
 docker run -m 2G -d -p 25565:25565 -e EULA=TRUE -e MOTD="hello world" --name mc openhack/minecraft-server
+
 docker container ls -a
+
 docker rm 51ecf84ce68b
+
 kubectl get service
+
 kubectl get pods
+
 az aks browse --resource-group ohaus --name ohAKSCluster
+
 kubectl apply -f openhack/minecraft-server.yaml
+
 kubectl get service minecraft-server --watch
+
 az resource show --resource-group ohaus --name ohAKSCluster --resource-type Microsoft.ContainerService/managedClusters --query properties.nodeResourceGroup -o tsv
 
 az storage account create --resource-group MC_ohaus_ohAKSCluster_australiaeast --name ohausstorageaccount --location australiaeast --sku Standard_LRS
