@@ -1,0 +1,74 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+ name: minecraft-serverv
+spec:
+ replicas: 1
+ template:
+   metadata:
+       labels:
+         app: minecraft-server
+   spec:
+     volumes:
+     - name: minecraft-pv-storage
+       persistentVolumeClaim:
+         claimName: storageazurefile
+     containers:
+     - name: minecraft-server
+       image: openhack/minecraft-server:2.0-alpine
+       ports:
+       - name: default
+         containerPort: 25565
+       env:
+       - name: MOTD
+         value: "hello world"
+       - name: EULA
+         value: "TRUE"
+       volumeMounts:
+       - mountPath: "/data"
+         name: minecraft-pv-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: minecraft-server
+spec:
+ type: LoadBalancer
+ ports:
+ - name: port1
+   protocol: TCP
+   port: 25565
+   targetPort: 25565
+ - name: port2
+   protocol: TCP
+   port: 25567
+   targetPort: 25567
+ selector:
+   app: minecraft-server
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+ name: minecraft-pv-volume
+ labels:
+   type: local
+spec:
+ storageClassName: manual
+ capacity:
+   storage: 10Gi
+ accessModes:
+   - ReadWriteOnce
+ hostPath:
+   path: "/data"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+ name: minecraft-pv-claim
+spec:
+ storageClassName: manual
+ accessModes:
+   - ReadWriteOnce
+ resources:
+   requests:
+     storage: 3Gi
