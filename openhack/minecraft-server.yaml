@@ -3,6 +3,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: minecraft3
+  namespace: monitoring
 spec:
   replicas: 1
   template:
@@ -35,6 +36,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: minecraft-server
+  namespace: monitoring
 spec:
   type: LoadBalancer
   ports:
@@ -49,6 +51,14 @@ spec:
   selector:
     app: minecraft-server
 ---
-
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pythonlogging
+  namespace: monitoring
+spec:
+  containers:
+    - name: python-mc-logs
+      image: ohausacr.azurecr.io/python-mc-logs:v1
 
   

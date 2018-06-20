@@ -1,0 +1,9 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mylogpod
+  namespace: monitoring
+spec:
+  containers:
+    - name: python-mc-logs
+      image: ohausacr.azurecr.io/python-mc-logs:v1

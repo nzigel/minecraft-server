@@ -52,6 +52,26 @@ kubectl logs minecraft-serverv-669cb5bb84-cfd6v
 
 kubectl apply -f openhack\azure-file-sc.yaml
 
+kubectl create -f openhack\azure-file-sc.yaml
+
+kubectl delete -f openhack\azure-file-sc.yaml
+
 kubectl exec -it minecraft-serverv-669cb5bb84-9x7tp ash
 
 kubectl get sc azurefile -o yaml
+
+https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+
+kubectl create  -f prometheus-deployment.yaml --namespace=monitoring
+
+docker tag python-mc-logs ohausacr.azurecr.io/python-mc-logs:v1
+
+docker push ohausacr.azurecr.io/python-mc-logs:v1
+
+kubectl create namespace monitoring
+
+az acr repository list --name ohausacr --output table
+
+az acr repository show-tags --name ohausacr --repository python-mc-logs --output table
+
+kubectl apply -f minecraft-monitoring.yaml

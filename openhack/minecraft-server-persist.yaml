@@ -2,6 +2,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
  name: minecraft-serverv
+ namespace: monitoring
 spec:
  replicas: 1
  template:
@@ -32,6 +33,7 @@ apiVersion: v1
 kind: Service
 metadata:
  name: minecraft-server
+ namespace: monitoring
 spec:
  type: LoadBalancer
  ports:
@@ -50,6 +52,7 @@ kind: PersistentVolume
 apiVersion: v1
 metadata:
  name: minecraft-pv-volume
+ namespace: monitoring
  labels:
    type: local
 spec:
@@ -65,6 +68,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
  name: minecraft-pv-claim
+ namespace: monitoring
 spec:
  storageClassName: manual
  accessModes:
